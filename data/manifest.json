@@ -1,0 +1,20 @@
+{
+  "created_at": "2026-06-19T23:38:48.057046",
+  "random_seed": 42,
+  "data_source": "EIA Open Data API v2 \u2014 CAISO hourly demand (respondent=CISO, type=D)",
+  "eia_api_url": "https://api.eia.gov/v2/electricity/rto/region-data/data/",
+  "weather_source": "Open-Meteo Archive API",
+  "date_range": {
+    "start": "2021-01-01",
+    "end": "2024-12-31"
+  },
+  "spike_definition": "Top 5% hourly demand within each calendar year",
+  "train_years": [
+    2021,
+    2022
+  ],
+  "calib_year": 2023,
+  "test_year": 2024,
+  "key_event": "September 5-9 2022 CA heat wave (sep2022_heatwave flag)",
+  "note": "Switched from CAISO LMP prices to EIA demand data due to CAISO API historical limits. Demand spikes are directly relevant to community vulnerability (outage risk)."
+}

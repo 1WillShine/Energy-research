@@ -1,0 +1,546 @@
+{
+  "run_at": "2026-07-19T05:29:41.254703",
+  "experiments": {
+    "classifier": {
+      "train": {
+        "split": "train",
+        "n": 17511,
+        "spike_rate": 0.05002569813260237,
+        "auroc": 0.9989,
+        "brier": 0.0062,
+        "avg_precision": 0.9819,
+        "calibration_fraction_pos": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0005711022272986865,
+          0.49971444888635064
+        ],
+        "calibration_mean_pred": [
+          6.965637884249539e-05,
+          0.00015162817752831348,
+          0.0001873517727076378,
+          0.00021519419779021063,
+          0.0002633931425871595,
+          0.0003188566527642265,
+          0.0004502081155125901,
+          0.0007745194699450525,
+          0.005122706296503618,
+          0.49214128958529735
+        ]
+      },
+      "test": {
+        "split": "test",
+        "n": 8784,
+        "spike_rate": 0.05009107468123861,
+        "auroc": 0.9855,
+        "brier": 0.0218,
+        "avg_precision": 0.7879,
+        "calibration_fraction_pos": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.03758542141230068,
+          0.4630261660978385
+        ],
+        "calibration_mean_pred": [
+          6.71062371890361e-05,
+          0.00014944367985233429,
+          0.00018581762911289794,
+          0.0002069098773348732,
+          0.00025253315151661836,
+          0.00029708784854401757,
+          0.0004192111728871623,
+          0.0007583329003266682,
+          0.006183813787469666,
+          0.5286359672774582
+        ]
+      },
+      "feature_importances": {
+        "hour": 0.212,
+        "temp_f": 0.1965,
+        "temp_f_sq": 0.1861,
+        "solar_rad": 0.1755,
+        "is_summer": 0.1004,
+        "dow": 0.0455,
+        "wind_mph": 0.0367,
+        "month": 0.0264,
+        "temp_x_peak_hour": 0.0175,
+        "is_weekend": 0.0033,
+        "heat_stress": 0.0001,
+        "extreme_heat": 0.0
+      },
+      "ablations": {
+        "weather_only_no_calendar": {
+          "features": [
+            "temp_f",
+            "temp_f_sq",
+            "wind_mph",
+            "solar_rad",
+            "heat_stress",
+            "extreme_heat",
+            "temp_x_peak_hour"
+          ],
+          "n_train": 17511,
+          "n_test": 8784,
+          "auroc": 0.981,
+          "avg_precision": 0.7008,
+          "interpretation": "If AUROC is close to the full-feature model, spikes are weather-separable independent of time-of-day/seasonal calendar."
+        },
+        "shuffled_label_null": {
+          "features": [
+            "hour",
+            "dow",
+            "month",
+            "is_weekend",
+            "is_summer",
+            "temp_f",
+            "temp_f_sq",
+            "wind_mph",
+            "solar_rad",
+            "heat_stress",
+            "extreme_heat",
+            "temp_x_peak_hour"
+          ],
+          "n_train": 17511,
+          "n_test": 8784,
+          "auroc": 0.5619,
+          "expected_auroc": 0.5,
+          "passes_null_check": false,
+          "interpretation": "Should be ~0.50. Materially above 0.55 would indicate residual structural leakage (e.g. temporal autocorrelation) in the feature matrix even after label shuffling."
+        }
+      }
+    },
+    "conformal_standard": {
+      "alpha": 0.1,
+      "prob_threshold": 0.013278811273671809,
+      "coverage": {
+        "split": "test",
+        "alpha": 0.1,
+        "nominal_coverage": 0.9,
+        "empirical_coverage": 0.9682,
+        "false_alarm_rate": 0.0683,
+        "prob_threshold": 0.0133,
+        "stratified_coverage": {
+          "<75\u00b0F": {
+            "coverage": 0.9615,
+            "n_spikes": 104
+          },
+          "75-90\u00b0F": {
+            "coverage": 0.9606,
+            "n_spikes": 254
+          },
+          "90-100\u00b0F": {
+            "coverage": 1.0,
+            "n_spikes": 81
+          },
+          ">100\u00b0F": null
+        },
+        "heat_event_coverage": 1.0
+      }
+    },
+    "conformal_stratified": {
+      "thresholds_per_regime": {
+        "<75\u00b0F": 0.003277938578709505,
+        "75-90\u00b0F": 0.31265861567540487,
+        "90-100\u00b0F": 0.4630070811045336,
+        ">100\u00b0F": null
+      },
+      "coverage_comparison": {
+        "<75\u00b0F": {
+          "n_spikes": 104,
+          "global_coverage": 0.9615,
+          "stratified_coverage": 0.9904,
+          "delta": 0.0288
+        },
+        "75-90\u00b0F": {
+          "n_spikes": 254,
+          "global_coverage": 0.9606,
+          "stratified_coverage": 0.8622,
+          "delta": -0.0984
+        },
+        "90-100\u00b0F": {
+          "n_spikes": 81,
+          "global_coverage": 1.0,
+          "stratified_coverage": 0.9012,
+          "delta": -0.0988
+        }
+      }
+    },
+    "conformal_adaptive": {
+      "alpha": 0.1,
+      "gamma": 0.005,
+      "nominal_coverage": 0.9,
+      "empirical_coverage": 0.3545,
+      "false_alarm_rate": 0.0022,
+      "stratified_coverage": {
+        "<75\u00b0F": {
+          "coverage": 0.0096,
+          "n_spikes": 104
+        },
+        "75-90\u00b0F": {
+          "coverage": 0.4488,
+          "n_spikes": 254
+        },
+        "90-100\u00b0F": {
+          "coverage": 0.4938,
+          "n_spikes": 81
+        },
+        ">100\u00b0F": null
+      },
+      "heat_event_coverage": 0.5818,
+      "alpha_history_sample": [
+        0.1,
+        0.1005,
+        0.101,
+        0.1015,
+        0.102,
+        0.1025,
+        0.103,
+        0.1035,
+        0.104,
+        0.1045,
+        0.105,
+        0.1055,
+        0.106,
+        0.1065,
+        0.107,
+        0.1075,
+        0.108,
+        0.1085,
+        0.109,
+        0.1095,
+        0.11,
+        0.1105,
+        0.111,
+        0.1115,
+        0.112,
+        0.1125,
+        0.113,
+        0.1135,
+        0.114,
+        0.1145,
+        0.115,
+        0.1155,
+        0.116,
+        0.1165,
+        0.117,
+        0.1175,
+        0.118,
+        0.1185,
+        0.119,
+        0.1195,
+        0.12,
+        0.1205,
+        0.121,
+        0.1215,
+        0.122,
+        0.1225,
+        0.123,
+        0.1235,
+        0.124,
+        0.1245,
+        0.125,
+        0.1255,
+        0.126,
+        0.1265,
+        0.127,
+        0.1275,
+        0.128,
+        0.1285,
+        0.129,
+        0.1295,
+        0.13,
+        0.1305,
+        0.131,
+        0.1315,
+        0.132,
+        0.1325,
+        0.133,
+        0.1335,
+        0.134,
+        0.1345,
+        0.135,
+        0.1355,
+        0.136,
+        0.1365,
+        0.137,
+        0.1375,
+        0.138,
+        0.1385,
+        0.139,
+        0.1395,
+        0.14,
+        0.1405,
+        0.141,
+        0.1415,
+        0.142,
+        0.1425,
+        0.143,
+        0.1435,
+        0.144,
+        0.1445,
+        0.145,
+        0.1455,
+        0.146,
+        0.1465,
+        0.147,
+        0.1475,
+        0.148,
+        0.1485,
+        0.149,
+        0.1495
+      ],
+      "thresholds_history_sample": [
+        0.0133,
+        0.0135,
+        0.0135,
+        0.0135,
+        0.0135,
+        0.0135,
+        0.0138,
+        0.0138,
+        0.0138,
+        0.0138,
+        0.0139,
+        0.0139,
+        0.0139,
+        0.0139,
+        0.0139,
+        0.0139,
+        0.0139,
+        0.0139,
+        0.0139,
+        0.0147,
+        0.0147,
+        0.0147,
+        0.0147,
+        0.0147,
+        0.0152,
+        0.0152,
+        0.0152,
+        0.0152,
+        0.0157,
+        0.0157,
+        0.0157,
+        0.0157,
+        0.0157,
+        0.0159,
+        0.0159,
+        0.0159,
+        0.0159,
+        0.0164,
+        0.0164,
+        0.0164,
+        0.0164,
+        0.0164,
+        0.0179,
+        0.0179,
+        0.0179,
+        0.0179,
+        0.0179,
+        0.0186,
+        0.0186,
+        0.0186,
+        0.0186,
+        0.019,
+        0.019,
+        0.019,
+        0.019,
+        0.019,
+        0.0192,
+        0.0192,
+        0.0192,
+        0.0192,
+        0.0206,
+        0.0206,
+        0.0206,
+        0.0206,
+        0.0206,
+        0.021,
+        0.021,
+        0.021,
+        0.021,
+        0.0226,
+        0.0226,
+        0.0226,
+        0.0226,
+        0.0226,
+        0.0234,
+        0.0234,
+        0.0234,
+        0.0234,
+        0.0248,
+        0.0248,
+        0.0248,
+        0.0248,
+        0.0248,
+        0.0255,
+        0.0255,
+        0.0255,
+        0.0255,
+        0.0255,
+        0.0258,
+        0.0258,
+        0.0258,
+        0.0258,
+        0.0274,
+        0.0274,
+        0.0274,
+        0.0274,
+        0.0274,
+        0.0283,
+        0.0283,
+        0.0283
+      ]
+    },
+    "covariate_shift": {
+      "auroc_mean": 0.5766,
+      "auroc_std": 0.0079,
+      "interpretation": "Mild shift",
+      "cv_scores": [
+        0.5874283174643486,
+        0.5681412896264362,
+        0.5721292405789478,
+        0.584756645400176,
+        0.5704257490052805
+      ]
+    },
+    "granger": {
+      "lag_1h": {
+        "f_statistic": 55.497,
+        "p_value": 0.0,
+        "significant": "True"
+      },
+      "lag_6h": {
+        "f_statistic": 857.688,
+        "p_value": 0.0,
+        "significant": "True"
+      },
+      "lag_12h": {
+        "f_statistic": 392.443,
+        "p_value": 0.0,
+        "significant": "True"
+      },
+      "lag_24h": {
+        "f_statistic": 26.166,
+        "p_value": 0.0,
+        "significant": "True"
+      }
+    },
+    "vulnerability": {
+      "descriptive_stats": {
+        "n_counties": 25,
+        "energy_burden_mean": 3.95,
+        "energy_burden_median": 3.17,
+        "energy_burden_max": 7.65,
+        "energy_burden_min": 1.62,
+        "highest_burden_county": "Tulare",
+        "lowest_burden_county": "Marin",
+        "pct_counties_high_burden": 0.4,
+        "np15_counties": [
+          "Fresno",
+          "Madera",
+          "San Joaquin",
+          "Stanislaus",
+          "Sacramento",
+          "Solano",
+          "Sonoma",
+          "Napa",
+          "Alameda",
+          "Contra Costa",
+          "Santa Clara",
+          "San Mateo",
+          "San Francisco",
+          "Marin"
+        ]
+      },
+      "zone_summary": {
+        "np15_energy_burden_pct": 3.32,
+        "sp15_energy_burden_pct": 3.33,
+        "high_vuln_counties": [
+          "Tulare",
+          "Kern",
+          "Kings",
+          "Fresno",
+          "Madera"
+        ],
+        "low_vuln_counties": [
+          "Contra Costa",
+          "Santa Clara",
+          "San Mateo",
+          "San Francisco",
+          "Marin"
+        ]
+      },
+      "coverage_matrix": {
+        "Low vulnerability": {
+          "<75\u00b0F": {
+            "coverage": null,
+            "n": 1,
+            "fallback": true,
+            "fallback_reason": "n=1 < MIN_CELL_SPIKES=5"
+          },
+          "75-90\u00b0F": {
+            "n_spikes": 8,
+            "global_coverage": 0.375,
+            "stratified_coverage": 0.0,
+            "delta": -0.375,
+            "coverage_gap_from_nominal": -0.525
+          },
+          "90-100\u00b0F": {
+            "coverage": null,
+            "n": 1,
+            "fallback": true,
+            "fallback_reason": "n=1 < MIN_CELL_SPIKES=5"
+          },
+          ">100\u00b0F": {
+            "coverage": null,
+            "n": 0,
+            "fallback": true,
+            "fallback_reason": "n=0 < MIN_CELL_SPIKES=5"
+          }
+        },
+        "High vulnerability": {
+          "<75\u00b0F": {
+            "n_spikes": 103,
+            "global_coverage": 0.9709,
+            "stratified_coverage": 0.9903,
+            "delta": 0.0194,
+            "coverage_gap_from_nominal": 0.0709
+          },
+          "75-90\u00b0F": {
+            "n_spikes": 246,
+            "global_coverage": 0.9797,
+            "stratified_coverage": 0.8902,
+            "delta": -0.0894,
+            "coverage_gap_from_nominal": 0.0797
+          },
+          "90-100\u00b0F": {
+            "n_spikes": 80,
+            "global_coverage": 1.0,
+            "stratified_coverage": 0.9125,
+            "delta": -0.0875,
+            "coverage_gap_from_nominal": 0.1
+          },
+          ">100\u00b0F": {
+            "coverage": null,
+            "n": 1,
+            "fallback": true,
+            "fallback_reason": "n=1 < MIN_CELL_SPIKES=5"
+          }
+        }
+      }
+    }
+  }
+}

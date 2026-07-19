@@ -1,8 +1,10 @@
 data/raw/
 data/processed/
-results/
-figures/
 __pycache__/
 *.pyc
 .env
 *.parquet
+.DS_Store
+*.egg-info/
+dist/
+build/
