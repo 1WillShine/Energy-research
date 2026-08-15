@@ -2,7 +2,6 @@
 
 **Conformal Prediction for Electricity Spike Forecasting Under Weather and Community Heterogeneity**
 
-Will Shin — Halıcıoğlu Data Science Institute, UC San Diego
 
 *NeurIPS Workshop Submission, 2026*
 
