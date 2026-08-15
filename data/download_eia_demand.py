@@ -26,8 +26,13 @@ from pathlib import Path
 RAW_DIR = Path(__file__).parent / "raw"
 RAW_DIR.mkdir(parents=True, exist_ok=True)
 
-API_KEY  = "3zjKYxV86AqtJWSRoAECir1wQFscVu6lxXnRVKG8"
-BASE_URL = "https://api.eia.gov/v2/electricity/rto/region-data/data/"
+import os
+API_KEY = os.environ.get("EIA_API_KEY", "")
+if not API_KEY:
+    raise SystemExit(
+        "Set your EIA API key first (free at eia.gov/opendata/register.php):\n"
+        "  export EIA_API_KEY=your_key_here"
+    )BASE_URL = "https://api.eia.gov/v2/electricity/rto/region-data/data/"
 
 # CISO = California ISO (CAISO)
 # Types available: D=Demand, DF=Demand Forecast, G=Generation, TI=Total Interchange
