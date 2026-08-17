@@ -1,9 +1,0 @@
-cff-version: 1.2.0
-message: "If you use this code or data, please cite the associated paper."
-authors:
-  - family-names: Shin
-    given-names: Will
-    affiliation: "Halıcıoğlu Data Science Institute, UC San Diego"
-title: "Marginal Coverage Can Mask Conditional Instability: Conformal Prediction for Electricity Spike Forecasting Under Weather and Community Heterogeneity"
-year: 2026
-url: "https://github.com/1WillShine/Energy-Research"
